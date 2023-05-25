@@ -3,18 +3,19 @@ package application;
 import javafx.scene.image.Image;
 
 public class Card {
-	
-    private String suit;
+
+	private String suit;
     private String rank;
     private int value;
+    private final String path = "file:C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards\\";
     private Image frontImage;
-    private Image backImage = new Image("file:C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards\\back.png");
+    private Image backImage = new Image(path + "back.png");
 
     public Card(String suit, String rank) {
         this.suit = suit;
         this.rank = rank;
         this.value = calculateValue(rank);
-        this.frontImage = new Image("C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards\\" + suit.charAt(0) + rank.charAt(0) + ".png");
+        this.frontImage = new Image(path + suit.charAt(0) + rank.charAt(0) + ".png");
     }
 
     private int calculateValue(String rank) {
@@ -39,5 +40,10 @@ public class Card {
 
 	public Image getBackimage() {
 		return backImage;
-  }
+	}
+	
+	public boolean isAce() {
+		if (rank == "Ace") return true;
+		return false;
+	}
 }
