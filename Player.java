@@ -25,17 +25,25 @@ public class Player {
         
     	handSum += card.getValue();
     	
-    	if(handSum > 21 && aceCount > 0) {
-    		handSum -= 10;
-    		aceCount--;
-    	}
+    	if(handSum > 21 && aceCount > 0)
+    		updateHandSum();
+    	
+    }
+    
+    protected void updateHandSum() {
+    	handSum -= 10;
+		aceCount--;
     }
 
-	public int getAceCount() {
-		return aceCount;
+    public int getHandSum() {
+		return handSum;
 	}
+    
+    public String getHandSumStr() {
+        return String.valueOf(handSum);
+    }
 
-	public Card[] getHand() {
-		return hand;
+    public int getNumOfCards() {
+		return numOfCards;
 	}
 }
