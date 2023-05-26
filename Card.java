@@ -10,6 +10,7 @@ public class Card {
     private final String path = "file:C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards\\";
     private Image frontImage;
     private Image backImage = new Image(path + "back.png");
+    private boolean faceUp = true;
 
     public Card(String suit, String rank) {
         this.suit = suit;
@@ -34,16 +35,16 @@ public class Card {
 		return value;
 	}
 
-	public Image getFrontImage() {
-		return frontImage;
-	}
-
-	public Image getBackimage() {
+	public Image getCardImage() {
+		if (faceUp) return frontImage;
 		return backImage;
 	}
 	
+	public void flip() {
+		faceUp = !faceUp;
+	}
+	
 	public boolean isAce() {
-		if (rank == "Ace") return true;
-		return false;
+	    return rank.equals("Ace");
 	}
 }
