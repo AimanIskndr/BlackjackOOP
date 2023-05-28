@@ -7,16 +7,16 @@ public class Card {
 	private String suit;
     private String rank;
     private int value;
-    private final String path = "file:C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards\\";
+    private final String path = "file:C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards";
     private Image frontImage;
-    private Image backImage = new Image(path + "back.png");
+    private Image backImage = new Image(path + "\\back.png");
     private boolean faceUp = true;
 
     public Card(String suit, String rank) {
         this.suit = suit;
         this.rank = rank;
         this.value = calculateValue(rank);
-        this.frontImage = new Image(path + suit.charAt(0) + rank.charAt(0) + ".png");
+        this.frontImage = new Image(path + "\\" + suit.charAt(0) + rank.charAt(0) + ".png");
     }
 
     private int calculateValue(String rank) {
