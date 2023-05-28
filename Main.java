@@ -25,6 +25,8 @@ public class Main extends Application {
     HBox playerCardsContainer = new HBox(10);
     HBox playerCount;
     HBox dealerCount;
+    Button hitBtn;
+    Button standBtn; 
 
     public void start(Stage primaryStage) {
     	
@@ -43,43 +45,28 @@ public class Main extends Application {
         displayCards(dealerCardsContainer, dealer);
 
         dealerCount = createCountBox("Dealer: ", dealer.getHandSumStr());
-        dealerCount.setAlignment(Pos.TOP_LEFT);
         dealerCount.setTranslateX(15);
         dealerCount.setTranslateY(15);
 
         playerCount = createCountBox("Player: ", player.getHandSumStr());
-        playerCount.setAlignment(Pos.BOTTOM_LEFT);
         playerCount.setTranslateX(15);
         playerCount.setTranslateY(585);
 
-        Button hitBtn = new Button("Hit");
+        hitBtn = new Button("Hit");
         hitBtn.setTranslateX(500);
         hitBtn.setTranslateY(300);
         hitBtn.setPrefWidth(55);
         hitBtn.setPrefHeight(35);
-        hitBtn.setOnAction(event -> {
-            player.takeCard(deck);
-            displayCards(playerCardsContainer, player);
-            updateCountBox(playerCount, "Player: ", player.getHandSumStr());
-        });
 
-        Button standBtn = new Button("Stand");
+        standBtn = new Button("Stand");
         standBtn.setTranslateX(600);
         standBtn.setTranslateY(300);
         standBtn.setPrefWidth(55);
         standBtn.setPrefHeight(35);
-        standBtn.setOnAction(event -> {
-            hitBtn.setVisible(false);
-            standBtn.setVisible(false);
-            dealer.hand[1].flip();
-            dealer.hide = false;
-            
-            displayCards(dealerCardsContainer, dealer);
-            updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
-            dealerPlay();
-            //determineWinner();
-        });
-
+       
+        hitBtn.setOnAction(new HitHandler());
+        standBtn.setOnAction(new StandHandler());
+       
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn);
 
         Scene scene = new Scene(root, 1120, 630);
@@ -119,7 +106,43 @@ public class Main extends Application {
         dealer.hand[1].flip();
     }
     
+    class HitHandler implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent event) {
+            handlePlayerHit();
+        }
+    }
+    
+    private void handlePlayerHit() {
+        player.takeCard(deck);
+        displayCards(playerCardsContainer, player);
+        updateCountBox(playerCount, "Player: ", player.getHandSumStr());
+
+        if (player.getHandSum() >= 21) {
+            handlePlayerStand();
+        }
+    }
+    
+    class StandHandler implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent event) {
+            handlePlayerStand();
+        }
+    }
+    
+    private void handlePlayerStand() {
+        hitBtn.setVisible(false);
+        standBtn.setVisible(false);
+        dealer.hand[1].flip();
+        dealer.hide = false;
+        displayCards(dealerCardsContainer, dealer);
+        updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
+        dealerPlay();
+        // determineWinner();
+    }
+    
     private void dealerPlay() {
+    	
     	while(dealer.getHandSum() <= 16) {
     		dealer.takeCard(deck);
     		displayCards(dealerCardsContainer, dealer);
@@ -128,7 +151,7 @@ public class Main extends Application {
     }
 
     private void displayCards(HBox cardsContainer, Player hand) {
-    	
+   
     	if (!cardsContainer.getChildren().isEmpty()) {
     		cardsContainer.getChildren().clear();
     	}
