@@ -76,6 +76,8 @@ public class Main extends Application {
             
             displayCards(dealerCardsContainer, dealer);
             updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
+            dealerPlay();
+            //determineWinner();
         });
 
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn);
@@ -115,6 +117,14 @@ public class Main extends Application {
         player.takeCard(deck);
         dealer.takeCard(deck);
         dealer.hand[1].flip();
+    }
+    
+    private void dealerPlay() {
+    	while(dealer.getHandSum() <= 16) {
+    		dealer.takeCard(deck);
+    		displayCards(dealerCardsContainer, dealer);
+            updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
+    	}
     }
 
     private void displayCards(HBox cardsContainer, Player hand) {
