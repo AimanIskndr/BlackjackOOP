@@ -26,7 +26,8 @@ public class Main extends Application {
     HBox playerCount;
     HBox dealerCount;
     Button hitBtn;
-    Button standBtn; 
+    Button standBtn;
+    Text text;
 
     public void start(Stage primaryStage) {
     	
@@ -66,9 +67,15 @@ public class Main extends Application {
        
         hitBtn.setOnAction(new HitHandler());
         standBtn.setOnAction(new StandHandler());
-       
-        root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn);
-
+        
+        text = new Text();
+        text.setFont(Font.font("Lexend", FontWeight.BOLD, 28));
+        text.setFill(Color.WHITE);
+        text.setTranslateX(480);
+        text.setTranslateY(315);
+        
+        root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text);
+        
         Scene scene = new Scene(root, 1120, 630);
 
         primaryStage.setTitle("Blackjack");
@@ -138,7 +145,7 @@ public class Main extends Application {
         displayCards(dealerCardsContainer, dealer);
         updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
         dealerPlay();
-        // determineWinner();
+        determineWinner();
     }
     
     private void dealerPlay() {
@@ -162,6 +169,37 @@ public class Main extends Application {
             imageView.setFitWidth(100);
             imageView.setFitHeight(140);
             cardsContainer.getChildren().add(imageView);
+        }
+    }
+    
+    private void determineWinner() {
+
+        if(player.getHandSum() == 21 && dealer.getHandSum() != 21 && player.getNumOfCards() == 2){
+            text.setText("Blackjack!");
+        }
+
+        else if(dealer.getHandSum() > 21 && player.getHandSum() > 21){
+        	text.setText("You both bust.");
+        }
+
+        else if(dealer.getHandSum() > 21 && player.getHandSum() <= 21){
+            text.setText("You win, the dealer bust.");
+        }
+
+        else if(dealer.getHandSum() <= 21 && player.getHandSum() > 21){
+        	text.setText("You bust");
+        }
+
+        else if(dealer.getHandSum() == player.getHandSum()){
+        	text.setText("Game ended with a tie");
+        }
+
+        else if(((player.getHandSum() > dealer.getHandSum()) && player.getHandSum() <= 21) || player.getHandSum() == 21 && dealer.getHandSum() != 21){
+        	text.setText("You win!");
+        }
+
+        else if((player.getHandSum() < dealer.getHandSum()) && dealer.getHandSum() <= 21){
+        	text.setText("You lose.");
         }
     }
 }
