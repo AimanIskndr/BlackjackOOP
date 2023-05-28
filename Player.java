@@ -27,7 +27,6 @@ public class Player {
     	
     	if(handSum > 21 && aceCount > 0)
     		updateHandSum();
-    	
     }
     
     protected void updateHandSum() {
