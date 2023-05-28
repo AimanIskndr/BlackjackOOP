@@ -25,7 +25,6 @@ public class Main extends Application {
     HBox playerCardsContainer = new HBox(10);
     HBox playerCount;
     HBox dealerCount;
-    
 
     public void start(Stage primaryStage) {
     	
@@ -48,25 +47,36 @@ public class Main extends Application {
         dealerCount.setTranslateX(15);
         dealerCount.setTranslateY(15);
 
-        playerCount = createCountBox("Player: ", player.getHandSumStr()); // Assign value to the instance variable
+        playerCount = createCountBox("Player: ", player.getHandSumStr());
         playerCount.setAlignment(Pos.BOTTOM_LEFT);
         playerCount.setTranslateX(15);
         playerCount.setTranslateY(585);
-
 
         Button hitBtn = new Button("Hit");
         hitBtn.setTranslateX(500);
         hitBtn.setTranslateY(300);
         hitBtn.setPrefWidth(55);
         hitBtn.setPrefHeight(35);
-        hitBtn.setOnAction(new HitHandler());
+        hitBtn.setOnAction(event -> {
+            player.takeCard(deck);
+            displayCards(playerCardsContainer, player);
+            updateCountBox(playerCount, "Player: ", player.getHandSumStr());
+        });
 
         Button standBtn = new Button("Stand");
         standBtn.setTranslateX(600);
         standBtn.setTranslateY(300);
         standBtn.setPrefWidth(55);
         standBtn.setPrefHeight(35);
-        standBtn.setOnAction(new StandHandler());
+        standBtn.setOnAction(event -> {
+            hitBtn.setVisible(false);
+            standBtn.setVisible(false);
+            dealer.hand[1].flip();
+            dealer.hide = false;
+            
+            displayCards(dealerCardsContainer, dealer);
+            updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
+        });
 
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn);
 
@@ -77,28 +87,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
-    class HitHandler implements EventHandler<ActionEvent> {
-        @Override
-        public void handle(ActionEvent e) {
-            player.takeCard(deck);
-            displayCards(playerCardsContainer, player);
-            updateCountBox(playerCount, "Player: ", player.getHandSumStr());
-        }
-    }
-    
-    class StandHandler implements EventHandler<ActionEvent> {
-        @Override
-        public void handle(ActionEvent e) {
-            dealer.hand[1].flip();
-            dealer.hide = false;
-            displayCards(dealerCardsContainer, dealer);
-            updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
-            dealer.takeCard(deck, true);
-            updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
-        }
-    }
-
     private HBox createCountBox(String labelPrefix, String handSumStr) {
 
         HBox countBox = new HBox(10);
@@ -106,6 +94,7 @@ public class Main extends Application {
         Text label = new Text(labelPrefix);
         label.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         label.setFill(Color.WHITE);
+        
         Text countText = new Text(handSumStr);
         countText.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         countText.setFill(Color.WHITE);
