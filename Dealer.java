@@ -9,32 +9,6 @@ public class Dealer extends Player {
     }
 
     @Override
-    public void takeCard(Deck deck) {
-        takeCard(deck, true);
-    }
-
-    public void takeCard(Deck deck, boolean auto) {
-        if (auto) {
-            super.takeCard(deck);
-        } 
-        
-        else {
-            do {
-                Card drawnCard = deck.draw();
-
-                if (drawnCard != null) {
-                    hand[numOfCards] = drawnCard;
-                    numOfCards++;
-                    if (drawnCard.isAce()) {
-                        aceCount++;
-                    }
-                    updateHandSum(drawnCard);
-                }
-            } while (handSum < 17);
-        }
-    }
-	
-    @Override
     public String getHandSumStr() {
         if (hide) {
             return getHiddenHandSum();
