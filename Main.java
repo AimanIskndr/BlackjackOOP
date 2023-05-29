@@ -10,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -29,22 +27,20 @@ public class Main extends Application {
     HBox dealerCount;
     Button hitBtn;
     Button standBtn;
-    Button playAgainBtn;
     Text text;
+    Button playAgainBtn;
 
     public void start(Stage primaryStage) {
-
-        BorderPane root = new BorderPane();
+    	
+        Pane root = new Pane();
         root.setPadding(new Insets(10));
         root.setStyle("-fx-background-color: steelblue;");
-
-        Pane pane = new Pane();
 
         dealerCardsContainer.setTranslateX(15);
         dealerCardsContainer.setTranslateY(70);
 
         playerCardsContainer.setTranslateX(15);
-        playerCardsContainer.setTranslateY(350);
+        playerCardsContainer.setTranslateY(420);
 
         dealInitialCards();
         displayCards(playerCardsContainer, player);
@@ -56,51 +52,36 @@ public class Main extends Application {
 
         playerCount = createCountBox("Player: ", player.getHandSumStr());
         playerCount.setTranslateX(15);
-        playerCount.setTranslateY(535);
-
-        pane.getChildren().addAll(dealerCount, dealerCardsContainer, playerCount, playerCardsContainer);
+        playerCount.setTranslateY(585);
 
         hitBtn = new Button("Hit");
+        hitBtn.setTranslateX(500);
+        hitBtn.setTranslateY(300);
         hitBtn.setPrefWidth(55);
         hitBtn.setPrefHeight(35);
 
         standBtn = new Button("Stand");
-        standBtn.setPrefWidth(55);
-        standBtn.setPrefHeight(35);
-
+        standBtn.setTranslateX(600);
+        standBtn.setTranslateY(300);
+        standBtn.setPrefWidth(53);
+        standBtn.setPrefHeight(33);
+       
         hitBtn.setOnAction(new HitHandler());
         standBtn.setOnAction(new StandHandler());
-
-        HBox buttonBox = new HBox(10);
-        buttonBox.getChildren().addAll(hitBtn, standBtn);
-        buttonBox.setAlignment(Pos.CENTER);
-
+        
+        text = new Text();
+        text.setFont(Font.font("Lexend", FontWeight.BOLD, 28));
+        text.setFill(Color.WHITE);
+        text.setTranslateX(480);
+        text.setTranslateY(315);
+        
         playAgainBtn = new Button("Play Again");
         playAgainBtn.setTranslateX(525);
         playAgainBtn.setTranslateY(350);
         playAgainBtn.setPrefWidth(100);
         playAgainBtn.setPrefHeight(35);
         playAgainBtn.setVisible(false);
-
-        text = new Text();
-        text.setFont(Font.font("Lexend", FontWeight.BOLD, 28));
-        text.setFill(Color.WHITE);
-
-        StackPane centerContainer = new StackPane();
-        centerContainer.setAlignment(Pos.CENTER);
-        centerContainer.getChildren().addAll(buttonBox, text, playAgainBtn);
-
-        root.setCenter(centerContainer);
-        root.setLeft(pane);
-        BorderPane.setAlignment(centerContainer, Pos.CENTER);
-        BorderPane.setAlignment(playAgainBtn, Pos.CENTER);
-
-        Scene scene = new Scene(root, 1120, 630);
-
-        primaryStage.setTitle("Blackjack");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
+        
         playAgainBtn.setOnAction(event -> {
             Main newGame = new Main();
             Stage newStage = new Stage();
@@ -109,6 +90,14 @@ public class Main extends Application {
 
             ((Stage) playAgainBtn.getScene().getWindow()).close();
         });
+        
+        root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn);
+        
+        Scene scene = new Scene(root, 1120, 630);
+
+        primaryStage.setTitle("Blackjack");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     private HBox createCountBox(String labelPrefix, String handSumStr) {
