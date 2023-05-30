@@ -55,13 +55,13 @@ public class Main extends Application {
         playerCount.setTranslateY(585);
 
         hitBtn = new Button("Hit");
-        hitBtn.setTranslateX(500);
+        hitBtn.setTranslateX(480);
         hitBtn.setTranslateY(300);
         hitBtn.setPrefWidth(55);
         hitBtn.setPrefHeight(35);
 
         standBtn = new Button("Stand");
-        standBtn.setTranslateX(600);
+        standBtn.setTranslateX(585);
         standBtn.setTranslateY(300);
         standBtn.setPrefWidth(53);
         standBtn.setPrefHeight(33);
@@ -72,11 +72,10 @@ public class Main extends Application {
         text = new Text();
         text.setFont(Font.font("Lexend", FontWeight.BOLD, 28));
         text.setFill(Color.WHITE);
-        text.setTranslateX(480);
-        text.setTranslateY(315);
+        text.setTranslateY(310);
         
         playAgainBtn = new Button("Play Again");
-        playAgainBtn.setTranslateX(525);
+        playAgainBtn.setTranslateX(510);
         playAgainBtn.setTranslateY(350);
         playAgainBtn.setPrefWidth(100);
         playAgainBtn.setPrefHeight(35);
@@ -219,5 +218,7 @@ public class Main extends Application {
         else if((player.getHandSum() < dealer.getHandSum()) && dealer.getHandSum() <= 21){
         	text.setText("You lose.");
         }
+        
+        text.setX(560 - text.getLayoutBounds().getWidth() / 2);
     }
 }
