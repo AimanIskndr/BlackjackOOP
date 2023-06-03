@@ -30,7 +30,8 @@ public class Main extends Application {
     Button standBtn;
     Text text;
     Button playAgainBtn;
-
+    ToggleButton playerCountToggle;
+    
     public void start(Stage primaryStage) {
     	
         Pane root = new Pane();
@@ -109,7 +110,7 @@ public class Main extends Application {
                 root.setStyle("-fx-background-color: steelblue;");
         });;
         
-        ToggleButton playerCountToggle = new ToggleButton();
+        playerCountToggle = new ToggleButton();
         playerCountToggle.setSelected(true);
         playerCountToggle.setTranslateX(1083.5);
         playerCountToggle.setTranslateY(55);
@@ -122,7 +123,6 @@ public class Main extends Application {
         });
 
         playerCount.setVisible(playerCountToggle.isSelected());
-
         
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn, bgBtn, playerCountToggle);
         
@@ -134,9 +134,11 @@ public class Main extends Application {
     }
     
     private void initializeGame() {
+    	//create new instances of deck, player, and dealer
         deck = new Deck();
         player = new Player();
         dealer = new Dealer();
+        //update GUI
         dealerCardsContainer.getChildren().clear();
         playerCardsContainer.getChildren().clear();
         dealInitialCards();
@@ -148,6 +150,7 @@ public class Main extends Application {
         standBtn.setVisible(true);
         playAgainBtn.setVisible(false);
         text.setText("");
+        if(!playerCountToggle.isSelected()) playerCount.setVisible(false);
     }
 
 
