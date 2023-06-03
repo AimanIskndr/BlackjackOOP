@@ -7,7 +7,7 @@ public class Card {
     private String suit;
     private String rank;
     private int value;
-    private final String path = "file:C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards";
+    private final String path = "file:C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\cards"; //dont forget to change this the path to where you extracted your cards.zip file
     private Image frontImage;
     private Image backImage = new Image(path + "\\back.png");
     private boolean faceUp = true;
