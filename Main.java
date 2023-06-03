@@ -82,12 +82,7 @@ public class Main extends Application {
         playAgainBtn.setVisible(false);
         
         playAgainBtn.setOnAction(event -> {
-            Main newGame = new Main();
-            Stage newStage = new Stage();
-            newGame.start(newStage);
-            newStage.show();
-
-            ((Stage) playAgainBtn.getScene().getWindow()).close();
+        initializeGame();
         });
         
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn);
@@ -97,6 +92,23 @@ public class Main extends Application {
         primaryStage.setTitle("Blackjack");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+  
+  private void initializeGame() {
+        deck = new Deck();
+        player = new Player();
+        dealer = new Dealer();
+        dealerCardsContainer.getChildren().clear();
+        playerCardsContainer.getChildren().clear();
+        dealInitialCards();
+        displayCards(playerCardsContainer, player);
+        displayCards(dealerCardsContainer, dealer);
+        updateCountBox(playerCount, "Player: ", player.getHandSumStr());
+        updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
+        hitBtn.setVisible(true);
+        standBtn.setVisible(true);
+        playAgainBtn.setVisible(false);
+        text.setText("");
     }
 
     private HBox createCountBox(String labelPrefix, String handSumStr) {
@@ -221,7 +233,7 @@ public class Main extends Application {
         
         text.setX(560 - text.getLayoutBounds().getWidth() / 2);
     }
-    
+  
     public static void main(String[] args) {
         launch(args);
     }
