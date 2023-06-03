@@ -221,4 +221,8 @@ public class Main extends Application {
         
         text.setX(560 - text.getLayoutBounds().getWidth() / 2);
     }
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
