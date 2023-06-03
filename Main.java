@@ -232,4 +232,7 @@ public class Main extends Application {
         playAgainBtn.setVisible(false);
         text.setText("");
     }
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
