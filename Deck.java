@@ -1,16 +1,12 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class Deck {
 	
-    private List<Card> cards;
+    private Card[] cards;
     private int currentCount;
 
     public Deck() {
-        this.cards = new ArrayList<>();
+        cards = new Card[52];
         initializeDeck();
         shuffle();
     }
@@ -18,22 +14,32 @@ public class Deck {
     private void initializeDeck() {
         String[] suits = {"Diamond", "Heart", "Club", "Spade"};
         String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
-
+        
+        currentCount = 0;
+        
         for (String suit : suits) {
             for (String rank : ranks) {
-                cards.add(new Card(suit, rank));
+                cards[currentCount] = new Card(suit, rank);
+                currentCount++;
             }
         }
-        currentCount = 52;
     }
 
-    public void shuffle() {
-    	Collections.shuffle(cards);
+    public void shuffle(/*Monkey sort*/) {
+    	Card temp;
+    	for (int i = 0; i < 52; i++) {
+            int j = (int) (Math.random() * 51);
+            temp = cards[i];
+            cards[i] = cards[j];
+            cards[j] = temp;
+        }
     }
 
     public Card draw() {
-    	currentCount--;
-        Card drawnCard = cards.get(currentCount);
-        return drawnCard;
+        if (currentCount == 0) {
+            return null;
+        }
+        currentCount--;
+        return cards[currentCount];
     }
 }
