@@ -111,6 +111,7 @@ public class Main extends Application{
         Scene scene = new Scene(root, 1120, 630);
 
         primaryStage.setTitle("Blackjack");
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
