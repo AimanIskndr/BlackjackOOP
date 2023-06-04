@@ -111,8 +111,8 @@ public class Main extends Application{
         Scene scene = new Scene(root, 1120, 630);
 
         primaryStage.setTitle("Blackjack");
-        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
     
@@ -169,48 +169,6 @@ public class Main extends Application{
     	btn.setStyle("-fx-background-color: #f3f3f3; -fx-font-weight: bold;");
     	return btn;
     }
-    
-    private void initializeGame() {
-    	//create new instances of deck, player, and dealer
-        deck = new Deck();
-        player = new Player();
-        dealer = new Dealer();
-        //update GUI
-        dealerCardsContainer.getChildren().clear();
-        playerCardsContainer.getChildren().clear();
-        dealInitialCards();
-        displayCards(playerCardsContainer, player);
-        displayCards(dealerCardsContainer, dealer);
-        updateCountBox(playerCount, "Player: ", player.getHandSumStr());
-        updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
-        hitBtn.setVisible(true);
-        standBtn.setVisible(true);
-        playAgainBtn.setVisible(false);
-        text.setText("");
-        if(!playerCountToggle.isSelected()) playerCount.setVisible(false);
-    }
-
-
-    private HBox createCountBox(String labelPrefix, String handSumStr) {
-
-        HBox countBox = new HBox(10);
-
-        Text label = new Text(labelPrefix);
-        label.setFont(Font.font("Arial", FontWeight.BOLD, 28));
-        label.setFill(Color.WHITE);
-        
-        Text countText = new Text(handSumStr);
-        countText.setFont(Font.font("Arial", FontWeight.BOLD, 28));
-        countText.setFill(Color.WHITE);
-        countBox.getChildren().addAll(label, countText);
-
-        return countBox;
-    }
-    
-    private void updateCountBox(HBox countBox, String labelPrefix, String handSumStr) {
-        Text countText = (Text) countBox.getChildren().get(1);
-        countText.setText(handSumStr);
-    }
 
     private void dealInitialCards() {
 
@@ -252,19 +210,34 @@ public class Main extends Application{
         dealer.hide = false;
         displayCards(dealerCardsContainer, dealer);
         updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
-        dealerPlay();
         playerCount.setVisible(true);
-        determineWinner();
-        playAgainBtn.setVisible(true);
+
+        Task<Void> dealerTurnTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                dealerPlay();
+                return null;
+            }
+        };
+
+        dealerTurnTask.setOnSucceeded(event -> {
+            determineWinner();
+            playAgainBtn.setVisible(true);
+        });
+
+        Thread dealerThread = new Thread(dealerTurnTask);
+        dealerThread.start(/*start a new thread*/);
     }
-    
+
     private void dealerPlay() {
-    	
-    	while(dealer.getHandSum() <= 16) {
-    		dealer.takeCard(deck);
-    		displayCards(dealerCardsContainer, dealer);
-            updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
-    	}
+        while (dealer.getHandSum() <= 16) {
+        	sleep(1.4);
+            dealer.takeCard(deck);
+            Platform.runLater(() -> {
+                displayCards(dealerCardsContainer, dealer);
+                updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
+            });
+        }
     }
 
     private void displayCards(HBox cardsContainer, Player hand) {
@@ -313,6 +286,15 @@ public class Main extends Application{
         }
         
         text.setX(560 - text.getLayoutBounds().getWidth() / 2);
+    }
+    
+    public static void sleep(double s) {
+        long ms = (long) s * 1000;
+        try{
+            Thread.sleep(ms);
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+          }
     }
     
     public static void main(String[] args) {
