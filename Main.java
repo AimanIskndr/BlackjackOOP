@@ -1,6 +1,8 @@
 package application;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,7 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main extends Application{
 
     Deck deck = new Deck();
     Player player = new Player();
@@ -48,29 +50,14 @@ public class Main extends Application {
         displayCards(playerCardsContainer, player);
         displayCards(dealerCardsContainer, dealer);
 
-        dealerCount = createCountBox("Dealer: ", dealer.getHandSumStr());
-        dealerCount.setTranslateX(15);
-        dealerCount.setTranslateY(15);
+        dealerCount = createCountBox("Dealer: ", dealer.getHandSumStr(), 15, 15);
 
-        playerCount = createCountBox("Player: ", player.getHandSumStr());
-        playerCount.setTranslateX(15);
-        playerCount.setTranslateY(585);
+        playerCount = createCountBox("Player: ", player.getHandSumStr(), 15, 585);
 
-        hitBtn = new Button("Hit");
-        hitBtn.setTranslateX(480);
-        hitBtn.setTranslateY(300);
-        hitBtn.setPrefWidth(55);
-        hitBtn.setPrefHeight(35);
-        hitBtn.setStyle("-fx-background-color: #f3f3f3; -fx-font-weight: bold;");
-
-        standBtn = new Button("Stand");
-        standBtn.setTranslateX(585);
-        standBtn.setTranslateY(300);
-        standBtn.setPrefWidth(53);
-        standBtn.setPrefHeight(33);
-        standBtn.setStyle("-fx-background-color: #f3f3f3; -fx-font-weight: bold;");
-       
+        hitBtn = createButton("Hit", 480, 300, 55, 35);
         hitBtn.setOnAction(new HitHandler());
+        
+        standBtn = createButton("Stand" , 585, 300, 53, 33);
         standBtn.setOnAction(new StandHandler());
         
         text = new Text();
@@ -78,12 +65,7 @@ public class Main extends Application {
         text.setFill(Color.WHITE);
         text.setTranslateY(310);
         
-        playAgainBtn = new Button("Play Again");
-        playAgainBtn.setTranslateX(510);
-        playAgainBtn.setTranslateY(350);
-        playAgainBtn.setPrefWidth(100);
-        playAgainBtn.setPrefHeight(35);
-        playAgainBtn.setStyle("-fx-background-color: #f3f3f3; -fx-font-weight: bold;");
+        playAgainBtn = createButton("Play Again", 510, 350, 100, 35);
         playAgainBtn.setVisible(false);
         
         playAgainBtn.setOnAction(event -> {
@@ -131,6 +113,60 @@ public class Main extends Application {
         primaryStage.setTitle("Blackjack");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    private void initializeGame() {
+    	//create new instances of deck, player, and dealer
+        deck = new Deck();
+        player = new Player();
+        dealer = new Dealer();
+        //update GUI
+        dealerCardsContainer.getChildren().clear();
+        playerCardsContainer.getChildren().clear();
+        dealInitialCards();
+        displayCards(playerCardsContainer, player);
+        displayCards(dealerCardsContainer, dealer);
+        updateCountBox(playerCount, "Player: ", player.getHandSumStr());
+        updateCountBox(dealerCount, "Dealer: ", dealer.getHandSumStr());
+        hitBtn.setVisible(true);
+        standBtn.setVisible(true);
+        playAgainBtn.setVisible(false);
+        text.setText("");
+        if(!playerCountToggle.isSelected()) playerCount.setVisible(false);
+    }
+
+    private HBox createCountBox(String labelPrefix, String handSumStr, double x, double y) {
+
+        HBox countBox = new HBox(10);
+
+        Text label = new Text(labelPrefix);
+        label.setFont(Font.font("Arial", FontWeight.BOLD, 28));
+        label.setFill(Color.WHITE);
+        
+        Text countText = new Text(handSumStr);
+        countText.setFont(Font.font("Arial", FontWeight.BOLD, 28));
+        countText.setFill(Color.WHITE);
+        countBox.getChildren().addAll(label, countText);
+        
+        countBox.setTranslateX(x);
+        countBox.setTranslateY(y);
+        
+        return countBox;
+    }
+    
+    private void updateCountBox(HBox countBox, String labelPrefix, String handSumStr) {
+        Text countText = (Text) countBox.getChildren().get(1);
+        countText.setText(handSumStr);
+    }
+    
+    private Button createButton(String label, double x, double y, double w, double h) {
+    	Button btn = new Button(label);
+    	btn.setTranslateX(x);
+    	btn.setTranslateY(y);
+    	btn.setPrefWidth(w);
+    	btn.setPrefHeight(h);
+    	btn.setStyle("-fx-background-color: #f3f3f3; -fx-font-weight: bold;");
+    	return btn;
     }
     
     private void initializeGame() {
