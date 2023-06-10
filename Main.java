@@ -72,7 +72,7 @@ public class Main extends Application{
             initializeGame();
         });
         
-        Image settingImg = new Image("C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\misc\\setting.png");
+        Image settingImg = new Image("C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\PNGAssets\\setting.png");
         ImageView settingImgView = new ImageView(settingImg);
         settingImgView.setFitWidth(25);
         settingImgView.setFitHeight(25);
