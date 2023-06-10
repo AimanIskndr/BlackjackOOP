@@ -77,36 +77,34 @@ public class Main extends Application{
         settingImgView.setFitWidth(25);
         settingImgView.setFitHeight(25);
         
-        Button bgBtn = new Button();
-        bgBtn.setTranslateX(1070);
-        bgBtn.setTranslateY(15);
-        bgBtn.setGraphic(settingImgView);
-        bgBtn.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-        bgBtn.setPrefWidth(25);
-        bgBtn.setPrefHeight(25);
-        
-        bgBtn.setOnAction(event -> {
-        	if (root.getStyle().contains("steelblue")) 
-                root.setStyle("-fx-background-color: forestgreen;");
-        	else
-                root.setStyle("-fx-background-color: steelblue;");
-        });;
-        
         playerCountToggle = new ToggleButton();
         playerCountToggle.setSelected(true);
-        playerCountToggle.setTranslateX(1083.5);
-        playerCountToggle.setTranslateY(55);
-
+        
+        SettingPane setting = new SettingPane();
+        setting.setTranslateX(777);
+        setting.setTranslateY(30);
+        
+        Button settingBtn = new Button();
+        settingBtn.setTranslateX(1070);
+        settingBtn.setTranslateY(15);
+        settingBtn.setGraphic(settingImgView);
+        settingBtn.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        settingBtn.setPrefWidth(25);
+        settingBtn.setPrefHeight(25);
+        settingBtn.setOnAction(event -> {
+        	if(setting.isVisible()) setting.setVisible(false);
+        	else setting.setVisible(true);
+        });;
+        
         playerCountToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) 
                 playerCount.setVisible(true);
             else
                 playerCount.setVisible(false);
+            setting.setState();
         });
-
-        playerCount.setVisible(playerCountToggle.isSelected());
         
-        root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn, bgBtn, playerCountToggle);
+        root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn, settingBtn, setting);
         
         Scene scene = new Scene(root, 1120, 630);
 
@@ -295,6 +293,42 @@ public class Main extends Application{
           } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
           }
+    }
+    
+    public class SettingPane extends Pane {
+        
+        private Text title;
+        private Text state;
+        
+        public SettingPane() {
+            setPrefSize(300, 180);
+            setStyle("-fx-background-color: #f5f5f5;");
+            setVisible(false);
+            
+            title = new Text("Setting");
+            title.setFont(Font.font("Helvetica", FontWeight.BOLD, 22));
+            title.setX(150 - title.getLayoutBounds().getWidth() / 2);
+            title.setY(25);
+            
+            state = new Text();
+            setState();
+            state.setX(245);
+            state.setY(55);
+            state.setFont(Font.font(13));
+            
+            playerCountToggle.setTranslateX(225);
+            playerCountToggle.setTranslateY(55);
+            //pls set this to be horizontal later on and fix the position
+            //also add the color toggle setting button later
+            //for implementation may refer to the older version
+            
+            getChildren().addAll(title, playerCountToggle, state);
+        }
+        
+        public void setState() {
+        	if(playerCountToggle.isSelected()) state.setText("(On)");
+        	else state.setText("(Off)");
+        }
     }
     
     public static void main(String[] args) {
