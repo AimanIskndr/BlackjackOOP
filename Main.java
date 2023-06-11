@@ -17,7 +17,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
 
 public class Main extends Application{
 
@@ -33,6 +35,7 @@ public class Main extends Application{
     Text text;
     Button playAgainBtn;
     ToggleButton playerCountToggle;
+    ToggleButton bgBtn;
     
     public void start(Stage primaryStage) {
     	
@@ -72,7 +75,7 @@ public class Main extends Application{
             initializeGame();
         });
         
-        Image settingImg = new Image("C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\PNGAssets\\setting.png");
+        Image settingImg = new Image("C:\\Users\\kyrai\\eclipse-workspace\\OOPProject\\PNGAssets\\\\setting.png");
         ImageView settingImgView = new ImageView(settingImg);
         settingImgView.setFitWidth(25);
         settingImgView.setFitHeight(25);
@@ -80,13 +83,15 @@ public class Main extends Application{
         playerCountToggle = new ToggleButton();
         playerCountToggle.setSelected(true);
         
+        bgBtn= new ToggleButton();
+        
         SettingPane setting = new SettingPane();
         setting.setTranslateX(777);
         setting.setTranslateY(30);
         
         Button settingBtn = new Button();
         settingBtn.setTranslateX(1070);
-        settingBtn.setTranslateY(15);
+        settingBtn.setTranslateY(30);
         settingBtn.setGraphic(settingImgView);
         settingBtn.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         settingBtn.setPrefWidth(25);
@@ -103,6 +108,22 @@ public class Main extends Application{
                 playerCount.setVisible(false);
             setting.setState();
         });
+        
+        bgBtn.setOnAction(event ->{
+        	if (root.getStyle().contains("steelblue"))
+        		root.setStyle("-fx-background-color: forestgreen;");
+        	else
+        		root.setStyle("-fx-background-color: steelblue;");
+        	setting.setBackground();
+        });;
+        
+        
+        settingBtn.setTranslateX(1070);
+        settingBtn.setTranslateY(15);
+        settingBtn.setGraphic(settingImgView);
+        settingBtn.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        settingBtn.setPrefWidth(25);
+        settingBtn.setPrefHeight(25);
         
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn, settingBtn, setting);
         
@@ -298,7 +319,11 @@ public class Main extends Application{
     public class SettingPane extends Pane {
         
         private Text title;
+        private Text backgroundcolourbar;
+        private Text playercountbar; 	
         private Text state;
+        private Text background;
+        private Rectangle colourindicator;
         
         public SettingPane() {
             setPrefSize(300, 180);
@@ -310,24 +335,52 @@ public class Main extends Application{
             title.setX(150 - title.getLayoutBounds().getWidth() / 2);
             title.setY(25);
             
+            backgroundcolourbar=new Text("Background colour :");
+            backgroundcolourbar.setFont(Font.font("Helvetica", FontWeight.SEMI_BOLD, 16));
+            backgroundcolourbar.setX(30);
+            backgroundcolourbar.setY(70);
+            
+            playercountbar=new Text("Player Count Bar :");
+            playercountbar.setFont(Font.font("Helvetica", FontWeight.SEMI_BOLD, 16));
+            playercountbar.setX(30);
+            playercountbar.setY(120);
+
             state = new Text();
             setState();
-            state.setX(245);
-            state.setY(55);
+            state.setX(210);
+            state.setY(120);
             state.setFont(Font.font(13));
             
-            playerCountToggle.setTranslateX(225);
-            playerCountToggle.setTranslateY(55);
+            background= new Text();
+            setBackground();
+            background.setX(210);
+            background.setY(70);
+             
+            playerCountToggle.setTranslateX(190);
+            playerCountToggle.setTranslateY(100);
+            
+            bgBtn.setTranslateX(190);
+            bgBtn.setTranslateY(55);
+            
+            /*colourindicator.setX(230);
+            colourindicator.setY(70);
+            colourindicator.setWidth(10);
+            colourindicator.setHeight(10);*/
             //pls set this to be horizontal later on and fix the position
             //also add the color toggle setting button later
             //for implementation may refer to the older version
             
-            getChildren().addAll(title, playerCountToggle, state);
+            getChildren().addAll(title,backgroundcolourbar,playercountbar, playerCountToggle, state, bgBtn);
         }
         
         public void setState() {
         	if(playerCountToggle.isSelected()) state.setText("(On)");
         	else state.setText("(Off)");
+        }
+        
+        public void setBackground() {
+        	if(bgBtn.isSelected()) background.setText("(Forest Green)");
+        	else background.setText("(Steel Blue)");
         }
     }
     
