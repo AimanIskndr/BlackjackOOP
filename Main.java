@@ -151,7 +151,7 @@ public class Main extends Application{
         standBtn.setVisible(true);
         playAgainBtn.setVisible(false);
         text.setText("");
-        if(!playerCountToggle.isSelected()) playerCount.setVisible(false);
+        if(playerCountToggle.isSelected()) playerCount.setVisible(false);
     }
 
     private HBox createCountBox(String labelPrefix, String handSumStr, double x, double y) {
