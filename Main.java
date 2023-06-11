@@ -68,13 +68,6 @@ public class Main extends Application{
         text.setFill(Color.WHITE);
         text.setTranslateY(310);
         
-        playAgainBtn = createButton("Play Again", 510, 350, 100, 35);
-        playAgainBtn.setVisible(false);
-        
-        playAgainBtn.setOnAction(event -> {
-            initializeGame();
-        });
-        
         Image settingImg = new Image("C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\PNGAssets\\setting.png");
         ImageView settingImgView = new ImageView(settingImg);
         settingImgView.setFitWidth(25);
@@ -116,13 +109,20 @@ public class Main extends Application{
         	setting.setBackground();
         });;
         
-        
         settingBtn.setTranslateX(1070);
         settingBtn.setTranslateY(15);
         settingBtn.setGraphic(settingImgView);
         settingBtn.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         settingBtn.setPrefWidth(25);
         settingBtn.setPrefHeight(25);
+        
+        playAgainBtn = createButton("Play Again", 510, 350, 100, 35);
+        playAgainBtn.setVisible(false);
+        
+        playAgainBtn.setOnAction(event -> {
+        	setting.setVisible(false);
+            initializeGame();
+        });
         
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn, settingBtn, setting);
         
