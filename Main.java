@@ -24,8 +24,10 @@ import javafx.stage.Stage;
 public class Main extends Application{
 	
 	final String PATH = "C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\PNGAssets\\"; 
+	//Change the path your PNGAssets first before running
+	//the path should end with two backslash
 	
-    Deck deck = new Deck();
+    Deck deck;
     Player player = new Player();
     Dealer dealer = new Dealer();
     HBox dealerCardsContainer = new HBox(10);
@@ -40,6 +42,9 @@ public class Main extends Application{
     ToggleButton bgToggle;
     
     public void start(Stage primaryStage) {
+    	
+    	Card.setPath(PATH);
+    	deck = new Deck();
     	
         Pane root = new Pane();
         root.setPadding(new Insets(10));
