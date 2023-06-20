@@ -22,7 +22,9 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application{
-
+	
+	final String PATH = "C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\PNGAssets\\"; 
+	
     Deck deck = new Deck();
     Player player = new Player();
     Dealer dealer = new Dealer();
@@ -68,7 +70,7 @@ public class Main extends Application{
         text.setFill(Color.WHITE);
         text.setTranslateY(310);
         
-        Image settingImg = new Image("C:\\Users\\USER2022\\eclipse-workspace\\BlackjackOOP\\PNGAssets\\setting.png");
+        Image settingImg = new Image(PATH + "setting.png");
         ImageView settingImgView = new ImageView(settingImg);
         settingImgView.setFitWidth(25);
         settingImgView.setFitHeight(25);
@@ -127,7 +129,9 @@ public class Main extends Application{
         root.getChildren().addAll(dealerCount, playerCount, dealerCardsContainer, playerCardsContainer, hitBtn, standBtn, text, playAgainBtn, settingBtn, setting);
         
         Scene scene = new Scene(root, 1120, 630);
-
+        
+        Image icon = new Image(PATH + "AppIcon.png");
+        primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Blackjack");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
