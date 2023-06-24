@@ -6,7 +6,7 @@ package application;
 public class Player {
 
     protected int handSum = 0; // refers to the sum of cards in the player's hand.
-    protected int flexibleAceCount = 0; // ace card that can counted as 1
+    protected int flexibleAceCount = 0; // ace card that can be counted as 1
     protected int numOfCards = 0;
     protected boolean softHand = false; // soft hand = have flexible ace
     Card[] hand = new Card[11]; // Mathematically, the maximum card that player or dealer can have is 11
