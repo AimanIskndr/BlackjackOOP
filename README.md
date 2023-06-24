@@ -21,7 +21,7 @@ Make sure to configured the JDK, JavaFX, and an IDE before proceeding with runni
 1. Open your chosen IDE (e.g., IntelliJ IDEA, Eclipse, or NetBeans).
 2. Create a new JavaFX project.
 3. Configure the project to include the JavaFX libraries. Again, the steps may vary based on your IDE.
-4. Replace the default project files with the downloaded or cloned code files for the Blackjack game. Alternatively, you can create the class and paste the code. lso, you will need to download the PNGAssets zip folder:
+4. Replace the default project files with the downloaded or cloned code files for the Blackjack game. Alternatively, you can create the class and paste the code. Also, you will need to download the PNGAssets zip folder:
 
 
    4.1. Download the PNGAssets zip folder from the GitHub repository or any other source where the code is available.
