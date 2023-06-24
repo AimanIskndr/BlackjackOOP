@@ -29,7 +29,7 @@ Make sure to configured the JDK, JavaFX, and an IDE before proceeding with runni
    4.2. Extract the PNGAssets folder to a suitable location on your local machine.
    
    4.3. Locate the main class of the Blackjack game. In the main class, find the line of code where the PATH to the PNGAssets folder is defined. It might look like this:
-   ![](https://media.discordapp.net/attachments/1110942392175038554/1122057325461643284/image.png?width=1440&height=100)
+   ![](https://media.discordapp.net/attachments/1110942392175038554/1122069505468809317/image.png?width=1440&height=129)
 
    4.4. Update the path/to/PNGAssets with the actual path to the PNGAssets folder on your machine.
 
